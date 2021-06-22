@@ -1,0 +1,79 @@
+{%  extends 'main.html' %}
+{% block content %}
+{%  include 'status.html' %}
+
+<h3>User Profile</h3>
+
+
+<div class="col-md">
+    <div class="card card-body">
+        <h5>Contact Information</h5>
+        <hr>
+        <p>Email: {{student.email}}</p>
+        <p>Phone: {{student.phone}} </p>
+    </div>
+</div>
+
+<div class="col-md">
+    <div class="card card-body">
+        <h5>Total complaints</h5>
+        <hr>
+        <h1 style="text-align: center;padding: 10px">{{complaints.count}}</h1>
+    </div>
+</div>
+</div>
+
+
+<br>
+<div class="row">
+<div class="col">
+    <div class="card card-body">
+        <form method="get">
+            
+            <h6 font='5'>{{myFilter.form}} </h6>
+            
+
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+    </div>
+</div>
+
+</div>
+<br>
+
+<div class="row">
+<div class="col-md">
+    <div class="card card-body">
+        <table class="table table-sm">
+            <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Publish Date</th>
+                <th>Status</th>
+                <th>Department</th>
+                <th>Update</th>
+                <th>Remove</th>
+            </tr>
+
+            {% for complaint in complaints  %}
+
+
+            <tr>
+             <td>{{complaint.title}}</td>
+             <td>{{complaint.area}}</td>
+             <td>{{complaint.pub_date}}</td>
+             <td>{{complaint.status}}</td>
+             <td>{{complaint.Department}}</td>
+             <td><a href="{% url 'update_complaint' complaint.id %}" class="href">update</a></td>
+            
+                <td><a href="{% url 'delete_complaint' complaint.id %}" class="href">delete</a></td>
+
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+</div>
+</div>
+
+{% endblock content %}

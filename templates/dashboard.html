@@ -1,0 +1,96 @@
+{%  extends 'main.html' %}
+
+{% block content %}
+
+{%  include 'status.html' %}
+
+<br>
+
+<div class="row">
+	{% if  request.user.is_staff %}
+	<div class="col-md-5">
+		<h5>REGISTERED STUDENTS:</h5>
+		<hr>
+		<div class="card card-body">
+		
+			<table class="table table-sm">
+				<tr>
+					
+					<th>Students</th>
+					<th>EMAIL</th>
+				</tr>
+				{% for stu in student %}
+				<tr> 
+					<td>{{stu.name}}</td>
+					<td>{{stu.email}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+			{% endif %}
+	{% if not request.user.is_staff %}
+	<div class="col-md-5">
+		<h5>STUDENTS:</h5>
+		<hr>
+		<div class="card card-body">
+		
+			<table class="table table-sm">
+				<tr>
+					
+					<th>Student</th>
+					<th>Email</th>
+				</tr>
+				
+				<tr> 
+					<td><a href="{% url 'student' student.id %}" class="href">{{student.name}} </a></td>	
+					
+					<td>{{student.email}}</td>
+				</tr>
+			</table>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="col-md-7">
+		<h5>ALL  COMPLAINTS</h5>
+		<hr>
+		<div class="card card-body">
+			<table class="table table-sm">
+				<tr>
+
+					<th>Complaint</th>
+					<th>Date of complaint</th>
+					<th>Status</th>
+					{% if request.user.is_staff %}
+					<th>Student email</th>
+					{% endif %}
+					{% if not request.user.is_staff %}
+					<th>Update</th>
+					{% endif %}
+					<th>Remove</th>
+				</tr>
+				{% for complaint in complaints %} 
+				<tr>
+					<td><a href="{% url 'complaint' complaint.id %} "  class="href">{{complaint.title}}</a></td>
+					<td>{{complaint.pub_date}}</td>
+					<td>{{complaint.status}}</td>
+					{% if not request.user.is_staff %}
+					<td><a href="{% url 'update_complaint' complaint.id %}" class="href">update</a></td>
+					{% endif %}
+					{% if  request.user.is_staff %}
+					<td>{{complaint.student.email}}</td>
+					{% endif %}
+				
+					<td><a href="{% url 'delete_complaint' complaint.id %}" class="href">delete</a></td>
+			
+				</tr>
+			   {% endfor %}
+
+		      
+			</table>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
+
